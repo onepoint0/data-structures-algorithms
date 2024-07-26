@@ -11,11 +11,6 @@ public class LinkedList {
     // contains
     // indexOf
 
-    LinkedList() {
-        // first = new Node();
-        // last = new Node();
-    }
-
     private void delete() {
         first.setNext(null);
         last.setNext(null);
@@ -24,7 +19,6 @@ public class LinkedList {
 
     public void addFirst(int val) {
         System.out.println("ADD FIRST " +  val);
-        // var node = new Node(val);
         if (first == null) 
             first = last = new Node(val);
         else 
@@ -44,10 +38,11 @@ public class LinkedList {
 
     public Node getSecondLast() {
         Node curr = first;
-        int i = 0;
-        while (curr.getNext() != null) {
+        // int i = 0;
+        while (curr.getNext().getNext() != null) {
             curr = curr.getNext();
-            i++; if (i > 300) { System.out.println("breaking over 300"); break;  }
+            // printNode(curr)
+            // i++; if (i > 2000) { System.out.println("INFINITE LOOP!! breaking..."); break;  }
         }
         System.out.println("GET SECOND LAST val = " + curr.getValue());
         return curr;
@@ -69,59 +64,59 @@ public class LinkedList {
         if (first == last) {
             delete();
         } else {
-            // last.setNext(null); // for garbage collection
-            // last = getSecondLast();
-            // last.setNext(null);
+            var penultimate = getSecondLast();
+            penultimate.setNext(null);
+            last.setNext(null); // for garbage collection
+            last = penultimate;
         }
-    }
-
-    public boolean contains(int val) {
-        System.out.println("CONTAINS " + val);
-        boolean contains = false;
-
-        if ( first != null ) {
-
-//            int loops = 0;
-            Node currNode = first;
-            while (currNode.getNext() != null) {
-                // System.out.println("curr node value " + currNode.getValue());
-
-                if (currNode.getValue() == val) {
-                    contains = true;
-                    break;
-                }
-                currNode = currNode.getNext();
-
-//                loops++; if (loops > 200) { System.out.println("loops > 4, breaking"); break; }
-            } 
-        } 
-        if (contains) {
-            System.out.println("Linked list contains " + val);
-        } else {
-            System.out.println("Linked list does NOT contain " + val);
-        }
-        return contains;
     }
 
     public int indexOf(int val) {
-        System.out.println("INDEX OF " + val);
-        int idx = -1;
-        int loops = 0;
+        System.out.println("INDEX of " + val);
 
-        if (first != null ) {
+        int idx = 0;
+        boolean found = false;
+        if ( first != null ) {
+
             Node currNode = first;
-            while (currNode.getNext() != null) {
+            // printNode(currNode);
+
+            while (currNode != last) {
+
                 if (currNode.getValue() == val) {
-                    idx = loops;
+                    // System.out.println("val " + val + " found, breaking.");
+                    found = true;
                     break;
                 }
                 currNode = currNode.getNext();
-
-                loops++; if (loops > 200) { System.out.println("loops > 4, breaking"); break; }
-            } 
+                idx++;
+                // if (idx > 2000) { System.out.println("INFINITE LOOP!! breaking..."); break; }
+            }
+            if (currNode.getValue() == val) 
+                found = true;
         } 
-        System.out.println("Index of " + val + " is " + idx);
-        return idx;
+        if (found) {
+            System.out.println("index of " + val + " is " + idx);
+            return idx;
+        }
+
+        System.out.println("index of " + val + " is " + -1);
+        return -1;
+    }
+
+    public Boolean contains(int val) {
+        System.out.println("CONTAINS " + val);
+
+        if (indexOf(val) > -1 ) {
+            System.out.println("List does contain " + val);
+            return true;
+        }
+        System.out.println("List does NOT contain " + val);
+        return false;
+    }
+
+    private void printNode(Node node) {
+        System.out.println("Node is " +  node + ", val " + node.getValue() + ", next " + node.getNext());
     }
 
     public void print() {
@@ -131,9 +126,7 @@ public class LinkedList {
             Node currNode = first;
             String tostr = new String();
             while (currNode.getNext() != null) {
-                // System.out.println("curr node value " + currNode.getValue());
                 tostr = tostr + currNode.getValue() + ", ";
-                // System.out.println("curr string = " +  tostr);
                 currNode = currNode.getNext();
 
                 loops++; if (loops > 200) { System.out.println("loops > 4, breaking"); break; }
