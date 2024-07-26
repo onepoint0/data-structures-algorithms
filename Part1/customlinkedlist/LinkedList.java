@@ -1,5 +1,7 @@
 package customlinkedlist;
 
+import java.util.NoSuchElementException;
+
 public class LinkedList {
     private Node first;
     private Node last;
@@ -53,7 +55,7 @@ public class LinkedList {
         if (first == last) {
             delete();
         } else {
-            var next = first.getNext();
+            var next = first.getNext(); // keep a reference to the 2nd element so we can remove next link from first w/o losing ref to the head of the list
             first.setNext(null); // set to null so that it gets garbage collected
             first = next;
         }
@@ -75,30 +77,20 @@ public class LinkedList {
         System.out.println("INDEX of " + val);
 
         int idx = 0;
-        boolean found = false;
         if ( first != null ) {
 
             Node currNode = first;
-            // printNode(currNode);
-
-            while (currNode != last) {
+            while (currNode != null) {
 
                 if (currNode.getValue() == val) {
-                    // System.out.println("val " + val + " found, breaking.");
-                    found = true;
-                    break;
+                    System.out.println("index of " + val + " is " + idx);
+                    return idx;
                 }
                 currNode = currNode.getNext();
                 idx++;
                 // if (idx > 2000) { System.out.println("INFINITE LOOP!! breaking..."); break; }
             }
-            if (currNode.getValue() == val) 
-                found = true;
         } 
-        if (found) {
-            System.out.println("index of " + val + " is " + idx);
-            return idx;
-        }
 
         System.out.println("index of " + val + " is " + -1);
         return -1;

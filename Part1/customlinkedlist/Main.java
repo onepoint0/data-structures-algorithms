@@ -22,7 +22,7 @@ public class Main {
         list1.deleteFirst();
         list1.print();
         list1.contains(1);
-        list1.contains(3);
+        list1.contains(300);
         list1.indexOf(3);
         list1.indexOf(10);
     }
